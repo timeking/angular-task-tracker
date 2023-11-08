@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./button.component.css']
 })
 export class ButtonComponent {
-
+  title: string = 'Добавить';
 }
