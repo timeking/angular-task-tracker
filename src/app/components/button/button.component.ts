@@ -2,13 +2,19 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-button',
-  templateUrl: './button.component.html',
+  template: `
+  <button class="btn" 
+        [style.background-color]="color"
+        (click)="onButtonClick()">
+      {{title}}
+  </button>
+`,
   styleUrls: ['./button.component.css'],
   standalone: true,
 })
 export class ButtonComponent {
   title: string = 'Добавить';
-  color: string = "lightgreen";
+  color: string = "darkgreen";
 
   onButtonClick() {
     alert("button clicked!");

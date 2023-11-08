@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from './components/header/header.component';
-import { ButtonComponent } from './components/button/button.component';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+  <div class="container">
+    <app-header></app-header>
+  </div>
+`,
   styleUrls: ['./app.component.css'],
   standalone: true,
   imports: [ HeaderComponent ]

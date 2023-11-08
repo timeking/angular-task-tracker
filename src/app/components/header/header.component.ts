@@ -3,7 +3,12 @@ import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html',
+  template: `
+  <header>
+    <h1>{{title}}</h1>
+    <app-button></app-button>
+  </header>
+`,
   styleUrls: ['./header.component.css'],
   standalone: true,
   imports: [ ButtonComponent ],
