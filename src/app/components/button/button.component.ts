@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -13,10 +13,11 @@ import { Component } from '@angular/core';
   standalone: true,
 })
 export class ButtonComponent {
-  title: string = 'Добавить';
+  @Input() title!: string;
   color: string = "darkgreen";
+  @Output() btnClick = new EventEmitter<string>();
 
   onButtonClick() {
-    alert("button clicked!");
+    this.btnClick.emit(this.title);
   }
 }
