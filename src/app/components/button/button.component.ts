@@ -8,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class ButtonComponent {
   title: string = 'Добавить';
+  color: string = "lightgreen";
+
+  onButtonClick() {
+    alert("button clicked!");
+  }
 }
