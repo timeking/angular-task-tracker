@@ -6,7 +6,7 @@ import { ButtonComponent } from '../button/button.component';
   template: `
   <header>
     <h1>{{title}}:{{count}}</h1>
-    <app-button title="Добавить" (btnClick)="onAdd($event)"></app-button>
+    <app-button title="Добавить" [value]="value" (btnClick)="onAdd($event)"></app-button>
   </header>
 `,
   styleUrls: ['./header.component.css'],
@@ -15,6 +15,7 @@ import { ButtonComponent } from '../button/button.component';
 })
 export class HeaderComponent {
   title: string = 'Трекер Задач';
+  value: number = 17;
   count: number = 0;
 
   onAdd(title: string) {
