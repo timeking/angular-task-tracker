@@ -5,8 +5,13 @@ import { ButtonComponent } from '../button/button.component';
   selector: 'app-header',
   template: `
   <header>
-    <h1>{{title}}:{{count}}</h1>
-    <app-button title="Добавить" [value]="value" (btnClick)="onAdd($event)"></app-button>
+    <h1>{{title}}:{{count}}:{{valueFromParent-1}}</h1>
+    <app-button 
+      title="Добавить" 
+      [buttonValue]="valueFromParent" 
+      (buttonValueChange)="valueFromParent=$event" 
+      (btnClick)="onAdd($event)">
+    </app-button>
   </header>
 `,
   styleUrls: ['./header.component.css'],
@@ -15,7 +20,7 @@ import { ButtonComponent } from '../button/button.component';
 })
 export class HeaderComponent {
   title: string = 'Трекер Задач';
-  value: number = 17;
+  valueFromParent: number = 17;
   count: number = 0;
 
   onAdd(title: string) {

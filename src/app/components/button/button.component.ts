@@ -6,8 +6,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   <button class="btn" 
         [style.background-color]="color"
         (click)="onButtonClick()"
-        (mouseenter)="value=value+1">
-      {{title}}:{{value}}
+        (mouseenter)="onValueChange()">
+      {{title}}:{{buttonValue}}
   </button>
 `,
   styleUrls: ['./button.component.css'],
@@ -15,11 +15,17 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ButtonComponent {
   @Input() title!: string;
-  @Input() value!: number;
-  color: string = "darkgreen";
+  @Input() buttonValue!: number;
+  @Output() buttonValueChange = new EventEmitter<number>();
   @Output() btnClick = new EventEmitter<string>();
+  color: string = "darkgreen";
 
   onButtonClick() {
     this.btnClick.emit(this.title);
+  }
+
+  onValueChange() {
+    this.buttonValue += 1;
+    this.buttonValueChange.emit(this.buttonValue);
   }
 }
