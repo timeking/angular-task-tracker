@@ -8,8 +8,7 @@ import { ButtonComponent } from '../button/button.component';
     <h1>{{title}}:{{count}}:{{valueFromParent-1}}</h1>
     <app-button 
       title="Добавить" 
-      [buttonValue]="valueFromParent" 
-      (buttonValueChange)="valueFromParent=$event" 
+      [(buttonValue)]="valueFromParent" 
       (btnClick)="onAdd($event)">
     </app-button>
   </header>
