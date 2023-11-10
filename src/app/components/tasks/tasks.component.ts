@@ -11,6 +11,8 @@ import {TaskService} from "../../services/task.service";
   template: `
     @for(task of tasks; track task.id) {
         <app-task-item [task]="task"></app-task-item>
+    } @empty {
+        Нет задач!
     }
   `,
   styleUrl: './tasks.component.css'
@@ -21,6 +23,8 @@ export class TasksComponent {
   tasks: Task[] = [];
 
   constructor() {
-    this.tasks = this.taskService.getAllTasks();
+    this.taskService.getAllTasks().then((taskList: Task[]) => {
+      this.tasks = taskList;
+    });
   }
 }

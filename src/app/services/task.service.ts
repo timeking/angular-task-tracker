@@ -26,9 +26,12 @@ export class TaskService {
     },
   ];
 
+  serverUrl = "http://localhost:3000"
+
   constructor() { }
 
-  getAllTasks(): Task[] {
-    return this.tasks;
+  async getAllTasks(): Promise<Task[]> {
+    let data = await fetch(this.serverUrl + "/tasks");
+    return await data.json();
   }
 }
