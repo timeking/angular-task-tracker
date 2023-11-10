@@ -7,9 +7,10 @@ import {Task} from "../../Task";
   standalone: true,
   imports: [CommonModule],
   template: `
-    <p>
-      {{task.id}} - {{task.day}} - {{task.text}}
-    </p>
+    <div class="task">
+      <h3>{{ task.text }}</h3>
+      <p>{{ task.day }}</p>
+    </div>
   `,
   styleUrl: './task-item.component.css'
 })
