@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from 'src/app/Task';
+import {TaskItemComponent} from "../task-item/task-item.component";
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TaskItemComponent],
   template: `
     @for(task of tasks; track task.id) {
-      <p>
-      {{task.id}} - {{task.day}} - {{task.text}}
-      </p>
+        <app-task-item [task]="task"></app-task-item>
     }
   `,
   styleUrl: './tasks.component.css'
