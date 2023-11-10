@@ -1,7 +1,8 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from 'src/app/Task';
-import {RouterLink, RouterModule} from "@angular/router";
+import {ActivatedRoute, RouterLink, RouterModule} from "@angular/router";
+import {TaskService} from "../../services/task.service";
 
 @Component({
   selector: 'app-task',
@@ -15,7 +16,16 @@ import {RouterLink, RouterModule} from "@angular/router";
   styleUrl: './task.component.css'
 })
 export class TaskComponent {
+  route: ActivatedRoute = inject(ActivatedRoute)
+  taskService: TaskService = inject(TaskService);
   task: Task | undefined;
+
+  constructor() {
+    const id = Number(this.route.snapshot.params["id"])
+    this.taskService.getTaskById(id).then(task => {
+      this.task = task;
+    });
+  }
 
 
 }
