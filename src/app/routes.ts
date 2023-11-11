@@ -10,8 +10,7 @@ const routeConfig: Routes = [
   },
   {
     path: 'tasks',
-    component: TasksComponent,
-    title: 'Tasks Page'
+    redirectTo: '',
   },
   {
     path: 'tasks/:id',
