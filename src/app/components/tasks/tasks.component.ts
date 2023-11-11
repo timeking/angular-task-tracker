@@ -9,10 +9,14 @@ import {TaskService} from "../../services/task.service";
   standalone: true,
   imports: [CommonModule, TaskItemComponent],
   template: `
-    @for(task of tasks; track task.id) {
-        <app-task-item [task]="task"></app-task-item>
-    } @empty {
-        Нет задач!
+    @if (hasError) {
+      Ошибка запроса сервера
+    } @else {
+      @for(task of tasks; track task.id) {
+          <app-task-item [task]="task"></app-task-item>
+      } @empty {
+          Нет задач!
+      }
     }
   `,
   styleUrl: './tasks.component.css'
@@ -21,10 +25,12 @@ export class TasksComponent {
   taskService: TaskService = inject(TaskService);
 
   tasks: Task[] = [];
+  hasError: boolean = false;
 
   constructor() {
     this.taskService.getAllTasks().then((taskList: Task[]) => {
       this.tasks = taskList;
-    });
+      this.hasError = false;
+    }).catch(e => {this.hasError = true});
   }
 }
