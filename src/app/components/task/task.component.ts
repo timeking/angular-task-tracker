@@ -15,15 +15,17 @@ import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
   <form [formGroup]="applyForm" (submit)="submitTask()">
     <span class="form-control">
       <label for="details">Детали</label>
-      <input id="details" type="text" formControlName="details">
+      <input id="details" type="text" formControlName="details" [value]="task?.text">
     </span>
 
     <span class="form-control">
       <label for="day">День</label>
-      <input id="day" type="text" formControlName="day">
+      <input id="day" type="text" formControlName="day" [value]="task?.day">
     </span>
 
-    <button type="submit" class="primary">Сохранить</button>
+    <span class="form-control">
+      <button type="submit" class="primary btn">Сохранить</button>
+    </span>
   </form>
   `,
   styleUrl: './task.component.css'
