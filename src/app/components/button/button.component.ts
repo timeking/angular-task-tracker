@@ -1,31 +1,22 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-button',
   template: `
-  <button class="btn" 
-        [style.background-color]="color"
-        (click)="onButtonClick()"
-        (mouseenter)="onValueChange()">
-      {{title}}:{{buttonValue}}
-  </button>
-`,
+    <button class="btn"
+            [style.background-color]="color"
+            [routerLink]="['/tasks', 'new']">
+      {{title}}
+    </button>
+  `,
   styleUrls: ['./button.component.css'],
   standalone: true,
+  imports: [RouterLink]
 })
 export class ButtonComponent {
   @Input() title!: string;
-  @Input() buttonValue!: number;
-  @Output() buttonValueChange = new EventEmitter<number>();
-  @Output() btnClick = new EventEmitter<string>();
   color: string = "darkgreen";
 
-  onButtonClick() {
-    this.btnClick.emit(this.title);
-  }
 
-  onValueChange() {
-    this.buttonValue += 1;
-    this.buttonValueChange.emit(this.buttonValue);
-  }
 }

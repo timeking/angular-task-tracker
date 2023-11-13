@@ -21,10 +21,13 @@ export class TaskComponent {
   task: Task | undefined;
 
   constructor() {
-    const id = Number(this.route.snapshot.params["id"])
-    this.taskService.getTaskById(id).then(task => {
-      this.task = task;
-    });
+    const idValue = this.route.snapshot.params["id"];
+    if (idValue !== "new") {
+      const id = Number(idValue);
+      this.taskService.getTaskById(id).then(task => {
+        this.task = task;
+      });
+    }
   }
 
 

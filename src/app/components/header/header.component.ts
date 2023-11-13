@@ -5,11 +5,9 @@ import { ButtonComponent } from '../button/button.component';
   selector: 'app-header',
   template: `
   <header>
-    <h1>{{title}}:{{count}}:{{valueFromParent-1}}</h1>
-    <app-button 
-      title="Добавить" 
-      [(buttonValue)]="valueFromParent" 
-      (btnClick)="onAdd($event)">
+    <h1>{{title}}</h1>
+    <app-button
+      title="Добавить">
     </app-button>
   </header>
 `,
@@ -19,10 +17,4 @@ import { ButtonComponent } from '../button/button.component';
 })
 export class HeaderComponent {
   title: string = 'Трекер Задач';
-  valueFromParent: number = 17;
-  count: number = 0;
-
-  onAdd(title: string) {
-    this.count++;
-  }
 }
