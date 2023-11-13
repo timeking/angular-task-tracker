@@ -1,7 +1,7 @@
 import {Component, inject, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from 'src/app/Task';
-import {ActivatedRoute, RouterLink, RouterModule} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink, RouterModule} from "@angular/router";
 import {TaskService} from "../../services/task.service";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 
@@ -10,7 +10,13 @@ import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
   template: ` <a [routerLink]="['/tasks']">Назад</a>
-  <h2>Редактирование</h2>
+  <h2>
+  @if(task?.id) {
+    Редактирование
+  } @else {
+    Создание
+  }
+  </h2>
 
   <form [formGroup]="taskForm" (submit)="submitTask()">
     <span class="form-control">
@@ -33,7 +39,8 @@ import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
   styleUrl: './task.component.css'
 })
 export class TaskComponent {
-  route: ActivatedRoute = inject(ActivatedRoute)
+  route: ActivatedRoute = inject(ActivatedRoute);
+  router: Router = inject(Router);
   taskService: TaskService = inject(TaskService);
   task: Task | undefined;
   day!: string;
@@ -73,6 +80,7 @@ export class TaskComponent {
           this.day ?? '',
       ).then(response => {
         this.message = "Задача создана";
+        this.router.navigate(["/tasks"], { relativeTo: this.route })
       }).catch(e => {
         this.message = "Ошибка при создании задачи";
       });

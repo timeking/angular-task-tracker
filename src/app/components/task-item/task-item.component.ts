@@ -1,7 +1,8 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Task} from "../../Task";
-import {RouterModule} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
+import {TaskService} from "../../services/task.service";
 
 @Component({
   selector: 'app-task-item',
@@ -9,7 +10,7 @@ import {RouterModule} from "@angular/router";
   imports: [CommonModule, RouterModule],
   template: `
     <div class="task" [routerLink]="['/tasks', task.id]">
-      <h3>{{ task.text }}</h3>
+      <h3>{{ task.text }} <button class="btn" (click)="onDelete(task.id)">Удалить</button></h3>
       <p>{{ task.day }}</p>
     </div>
   `,
@@ -17,4 +18,17 @@ import {RouterModule} from "@angular/router";
 })
 export class TaskItemComponent {
   @Input() task!: Task;
+  taskService: TaskService = inject(TaskService);
+  router: Router = inject(Router);
+
+
+  onDelete(id?: number) {
+    if (id) {
+      this.taskService.deleteTask(id).then(removed => {
+        if (removed) {
+          this.router.navigate(['/tasks']);
+        }
+      });
+    }
+  }
 }

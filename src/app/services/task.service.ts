@@ -30,7 +30,6 @@ export class TaskService {
         day: day
       })
     });
-    console.log(response);
     return await response.json() ?? {};
   }
 
@@ -46,7 +45,13 @@ export class TaskService {
         day: day
       })
     });
-    console.log(response);
     return await response.json() ?? {};
+  }
+
+  async deleteTask(id: number): Promise<boolean> {
+    let response = await fetch(`${this.serverUrl}/tasks/${id}`, {
+      method: 'DELETE',
+    });
+    return response.status == 201;
   }
 }
