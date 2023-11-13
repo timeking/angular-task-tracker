@@ -10,23 +10,25 @@ import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
   template: ` <a [routerLink]="['/tasks']">Назад</a>
-  <h2>Редактирование {{task?.id}}</h2>
+  <h2>Редактирование</h2>
 
-  <form [formGroup]="applyForm" (submit)="submitTask()">
+  <form [formGroup]="taskForm" (submit)="submitTask()">
     <span class="form-control">
       <label for="details">Детали</label>
-      <input id="details" type="text" formControlName="details" [value]="task?.text">
+      <input id="details" type="text" formControlName="details" [(ngModel)]="details" required>
     </span>
 
     <span class="form-control">
-      <label for="day">День</label>
-      <input id="day" type="text" formControlName="day" [value]="task?.day">
+      <label for="day">Дата и время</label>
+      <input id="day" type="text" formControlName="day" [(ngModel)]="day" required>
     </span>
 
     <span class="form-control">
       <button type="submit" class="primary btn">Сохранить</button>
     </span>
   </form>
+
+  <div>{{message}}</div>
   `,
   styleUrl: './task.component.css'
 })
@@ -34,10 +36,13 @@ export class TaskComponent {
   route: ActivatedRoute = inject(ActivatedRoute)
   taskService: TaskService = inject(TaskService);
   task: Task | undefined;
-  applyForm = new FormGroup({
+  day!: string;
+  details!: string;
+  taskForm = new FormGroup({
     details: new FormControl(''),
     day: new FormControl(''),
-  })
+  });
+  message: string = '';
 
   constructor() {
     const idValue = this.route.snapshot.params["id"];
@@ -45,11 +50,33 @@ export class TaskComponent {
       const id = Number(idValue);
       this.taskService.getTaskById(id).then(task => {
         this.task = task;
+        this.day = task!.day;
+        this.details = task!.text;
       });
     }
   }
 
   submitTask() {
+    if (this.task?.id) {
+      this.taskService.updateTask(
+          this.task.id,
+          this.details,
+          this.day,
+      ).then(response => {
+        this.message = "Задача сохранена";
+      }).catch(e => {
+        this.message = "Ошибка при сохранении задачи";
+      });
+    } else {
+      this.taskService.createTask(
+          this.details ?? '',
+          this.day ?? '',
+      ).then(response => {
+        this.message = "Задача создана";
+      }).catch(e => {
+        this.message = "Ошибка при создании задачи";
+      });
+    }
 
   }
 }

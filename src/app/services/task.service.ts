@@ -10,12 +10,43 @@ export class TaskService {
   constructor() { }
 
   async getAllTasks(): Promise<Task[]> {
-    let data = await fetch(this.serverUrl + "/tasks");
+    let data = await fetch(`${this.serverUrl}/tasks`);
     return await data.json() ?? [];
   }
 
   async getTaskById(id: number): Promise<Task | undefined> {
-    let data = await fetch(this.serverUrl + "/tasks/" + id);
+    let data = await fetch(`${this.serverUrl}/tasks/${id}`);
     return await data.json() ?? {};
+  }
+
+  async createTask(details: string, day: string): Promise<Task | undefined> {
+    let response = await fetch(`${this.serverUrl}/tasks`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text: details,
+        day: day
+      })
+    });
+    console.log(response);
+    return await response.json() ?? {};
+  }
+
+  async updateTask(id: number, details: string, day: string): Promise<Task | undefined> {
+    let response = await fetch(`${this.serverUrl}/tasks/${id}`, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id,
+        text: details,
+        day: day
+      })
+    });
+    console.log(response);
+    return await response.json() ?? {};
   }
 }
