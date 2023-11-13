@@ -3,15 +3,28 @@ import { CommonModule } from '@angular/common';
 import { Task } from 'src/app/Task';
 import {ActivatedRoute, RouterLink, RouterModule} from "@angular/router";
 import {TaskService} from "../../services/task.service";
+import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   template: ` <a [routerLink]="['/tasks']">Назад</a>
-    <p>ID: <span>{{task?.id}}</span></p>
-    <p>text: <span>{{task?.text}}</span></p>
-    <p>day: <span>{{task?.day}}</span></p>
+  <h2>Редактирование {{task?.id}}</h2>
+
+  <form [formGroup]="applyForm" (submit)="submitTask()">
+    <span class="form-control">
+      <label for="details">Детали</label>
+      <input id="details" type="text" formControlName="details">
+    </span>
+
+    <span class="form-control">
+      <label for="day">День</label>
+      <input id="day" type="text" formControlName="day">
+    </span>
+
+    <button type="submit" class="primary">Сохранить</button>
+  </form>
   `,
   styleUrl: './task.component.css'
 })
@@ -19,6 +32,10 @@ export class TaskComponent {
   route: ActivatedRoute = inject(ActivatedRoute)
   taskService: TaskService = inject(TaskService);
   task: Task | undefined;
+  applyForm = new FormGroup({
+    details: new FormControl(''),
+    day: new FormControl(''),
+  })
 
   constructor() {
     const idValue = this.route.snapshot.params["id"];
@@ -30,5 +47,7 @@ export class TaskComponent {
     }
   }
 
+  submitTask() {
 
+  }
 }
