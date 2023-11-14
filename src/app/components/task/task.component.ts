@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Task } from 'src/app/Task';
 import {ActivatedRoute, Router, RouterLink, RouterModule} from "@angular/router";
 import {TaskService} from "../../services/task.service";
-import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-task',
@@ -21,16 +21,16 @@ import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
   <form [formGroup]="taskForm" (submit)="submitTask()">
     <span class="form-control">
       <label for="details">Детали</label>
-      <input id="details" type="text" formControlName="details" [(ngModel)]="details" required>
+      <input id="details" type="text" formControlName="details" required>
     </span>
 
     <span class="form-control">
       <label for="day">Дата и время</label>
-      <input id="day" type="text" formControlName="day" [(ngModel)]="day" required>
+      <input id="day" type="text" formControlName="day" required>
     </span>
 
     <span class="form-control">
-      <button type="submit" class="primary btn">Сохранить</button>
+      <button type="submit" class="primary btn btn-block" [disabled]="!taskForm.valid">Сохранить</button>
     </span>
   </form>
 
@@ -43,11 +43,9 @@ export class TaskComponent {
   router: Router = inject(Router);
   taskService: TaskService = inject(TaskService);
   task: Task | undefined;
-  day!: string;
-  details!: string;
   taskForm = new FormGroup({
-    details: new FormControl(''),
-    day: new FormControl(''),
+    details: new FormControl('', Validators.required),
+    day: new FormControl('', Validators.required),
   });
   message: string = '';
 
@@ -57,18 +55,28 @@ export class TaskComponent {
       const id = Number(idValue);
       this.taskService.getTaskById(id).then(task => {
         this.task = task;
-        this.day = task!.day;
-        this.details = task!.text;
+        if (task) {
+          this.taskForm.setValue({
+            details: task?.text,
+            day: task?.day,
+          });
+        }
       });
     }
   }
 
   submitTask() {
+    if (!this.taskForm.valid) {
+      alert("Form is invalid!!!");
+      //console.log(this.taskForm.validator);
+      return;
+    }
+
     if (this.task?.id) {
       this.taskService.updateTask(
           this.task.id,
-          this.details,
-          this.day,
+          this.taskForm.value.details!,
+          this.taskForm.value.day!,
       ).then(response => {
         this.message = "Задача сохранена";
       }).catch(e => {
@@ -76,8 +84,8 @@ export class TaskComponent {
       });
     } else {
       this.taskService.createTask(
-          this.details ?? '',
-          this.day ?? '',
+        this.taskForm.value.details!,
+        this.taskForm.value.day!,
       ).then(response => {
         this.message = "Задача создана";
         this.router.navigate(["/tasks"], { relativeTo: this.route })

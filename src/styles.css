@@ -38,6 +38,10 @@ body {
 .btn:active {
   transform: scale(0.98);
 }
+.btn:disabled {
+  transform: scale(1);
+  background: #aaa;
+}
 
 .btn-block {
   display: block;
