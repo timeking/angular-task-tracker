@@ -11,7 +11,7 @@ import {TaskService} from "../../services/task.service";
   template: `
     <div class="task" [routerLink]="['/tasks', task.id]">
       <h3>{{ task.text }} <button class="btn" (click)="onDelete($event, task.id)">Удалить</button></h3>
-      <p>{{ task.day }}</p>
+      <p>{{ task.day | date : 'medium' }}</p>
     </div>
   `,
   styleUrl: './task-item.component.css'

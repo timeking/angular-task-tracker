@@ -4,6 +4,9 @@
   "newProjectRoot": "projects",
   "projects": {
     "task-tracker": {
+      "i18n": {
+        "sourceLocale": "ru-RU"
+      },
       "projectType": "application",
       "schematics": {},
       "root": "",
