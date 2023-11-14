@@ -53,7 +53,10 @@ export class TasksComponent {
       this.filteredTasks = taskList;
       this.hasError = false;
       this.isLoading = false;
-    }).catch(e => {this.hasError = true});
+    }).catch(e => {
+      this.hasError = true;
+      this.isLoading = false;
+    });
   }
 
   onKeyUp(textToFilter: string) {
