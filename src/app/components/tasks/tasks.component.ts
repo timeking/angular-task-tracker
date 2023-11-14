@@ -49,7 +49,8 @@ export class TasksComponent {
   onKeyUp() {
     if (this.textToFilter) {
       this.filteredTasks = this.tasks.filter(
-        (task) => task.text.includes(this.textToFilter)
+        (task) => task.text.toLowerCase()
+          .includes(this.textToFilter.toLowerCase())
       );
     } else {
       this.filteredTasks = this.tasks;
