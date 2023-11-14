@@ -13,7 +13,7 @@ import {TaskService} from "../../services/task.service";
       Ошибка запроса сервера
     } @else {
       @for(task of tasks; track task.id) {
-          <app-task-item [task]="task"></app-task-item>
+          <app-task-item [task]="task" ></app-task-item>
       } @empty {
           Нет задач!
       }

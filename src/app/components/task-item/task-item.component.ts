@@ -10,7 +10,7 @@ import {TaskService} from "../../services/task.service";
   imports: [CommonModule, RouterModule],
   template: `
     <div class="task" [routerLink]="['/tasks', task.id]">
-      <h3>{{ task.text }} <button class="btn" (click)="onDelete(task.id)">Удалить</button></h3>
+      <h3>{{ task.text }} <button class="btn" (click)="onDelete($event, task.id)">Удалить</button></h3>
       <p>{{ task.day }}</p>
     </div>
   `,
@@ -22,11 +22,14 @@ export class TaskItemComponent {
   router: Router = inject(Router);
 
 
-  onDelete(id?: number) {
+
+  onDelete(event: MouseEvent, id?: number) {
+    event.stopPropagation();
+
     if (id) {
       this.taskService.deleteTask(id).then(removed => {
         if (removed) {
-          this.router.navigate(['/tasks']);
+          window.location.reload();
         }
       });
     }

@@ -52,6 +52,11 @@ export class TaskService {
     let response = await fetch(`${this.serverUrl}/tasks/${id}`, {
       method: 'DELETE',
     });
-    return response.status == 201;
+    return this.isSuccess(response.status);
   }
+
+  isSuccess(status: number) {
+    return status >= 200 && status < 300;
+  }
+
 }
