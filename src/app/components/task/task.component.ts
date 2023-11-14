@@ -26,7 +26,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 
     <span class="form-control">
       <label for="day">Дата и время</label>
-      <input id="day" type="text" formControlName="day" required>
+      <input id="day" type="datetime-local" formControlName="day" required>
     </span>
 
     <span class="form-control">
